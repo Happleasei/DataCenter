@@ -12,7 +12,7 @@ import os
 
 class ImportSqlFilesAsDB(object):
 
-    @ staticmethod
+    @staticmethod
     def create_database_and_import_sql_files(create_database_name, input_sql_name):
         # 默认进入一个数据库中
         conn = pymysql.connect(host="localhost", port=3306, user="root", passwd="19971008", db="user")
@@ -29,6 +29,12 @@ class ImportSqlFilesAsDB(object):
 
 if __name__ == "__main__":
     importSql = ImportSqlFilesAsDB()
-    #  可遍历创建database，导入sql文件
-    importSql.create_database_and_import_sql_files("user_copy", "user_copy.sql")
+    #  可遍历文件目录，导入sql文件
+    database_name = []
+    for dir_name in os.listdir('./sqlFiles_202205101051/'):
+        database_name.append(dir_name.split(".")[0])
+    # database_name = ['another', 'information_schema', 'mysql', 'performance_schema',
+    #                  'sakila', 'sys', 'user', 'user_copy', 'world']
+    for dn in database_name:
+        importSql.create_database_and_import_sql_files(dn, './sqlFiles_202205101051/' + dn + ".sql")
 
